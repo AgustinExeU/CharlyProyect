@@ -2,57 +2,45 @@ const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require("path");
 
-//const authRoutes = require('./routes/auth');
+// Cargar variables de entorno
+require('dotenv').config();
 
-//const app = express();
-const port = 5000;
+// Inicializar Express
+const app = express();
+const port = process.env.PORT || 5000;
 
-
-const serviceAccount = require('./firebaseConfig.json');
-
-
-if(!admin.apps.length){
-  
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-}else{
+// Configuración de Firebase usando variables de entorno
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), 
+    }),
+  });
+} else {
   admin.app();
 }
 
-
-
-//const db = admin.firestore();
-const authRoutes = require('./routes/auth');
-const productRoutes = require('./routes/products');
-const profileRouter = require('./routes/profile'); 
-
-
-
-const app = express();
-
-
-
-
+// Middlewares
 app.use(cors());
 app.use(bodyParser.json());
 
-//app.use('/api/auth', authRoutes);
-
+// Rutas
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/products');
+const profileRouter = require('./routes/profile');
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('¡Backend desplegado!');
 });
 
-
-
-app.use('/api/auth',authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api', profileRouter);
 
-
+// Iniciar servidor
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
