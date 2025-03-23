@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
       if (!response.ok) throw new Error("Error al obtener productos");
       const data = await response.json();
       setProducts(data);
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${process.env.REACT_APP_API_URL}/api/products/${id}`, { method: "DELETE" });
+      await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, { method: "DELETE" });
       message.success("Producto eliminado");
       fetchProducts();
     } catch (error) {
@@ -60,12 +60,12 @@ const Dashboard = () => {
 
   const handleSubmit = async (values) => {
     try {
-      let url = `${process.env.REACT_APP_API_URL}/api/products`;
+      let url = `${import.meta.env.VITE_API_URL}/api/products`;
       let method = "POST";
       let payload = { name: values.name, description: values.description, category: values.category };
 
       if (editingProduct) {
-        url = `${process.env.REACT_APP_API_URL}/api/products/${editingProduct.id}`;
+        url = `${import.meta.env.VITE_API_URL}/api/products/${editingProduct.id}`;
         method = "PUT";
       }
 

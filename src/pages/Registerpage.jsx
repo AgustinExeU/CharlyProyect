@@ -33,7 +33,7 @@ const RegisterPage = () => {
     setLoading(true);
     console.log("Datos enviados al backend:", formData);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, formData);
       console.log("Respuesta del backend:", response.data);
 
       if (formData.mfaEnabled) {
@@ -53,7 +53,7 @@ const RegisterPage = () => {
 
   const verifyMfa = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/verify-mfa`, { 
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-mfa`, { 
         email: formData.email, 
         code: mfaCode 
       });

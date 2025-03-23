@@ -15,7 +15,7 @@ const ForgotPasswordPage = () => {
   const onFinish = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/forgot-password`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
         email,
         securityAnswer,
         newPassword,
