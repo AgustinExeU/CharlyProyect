@@ -30,3 +30,5 @@ firebaseConfig.json
 node_modules
 
 backend
+
+.env 

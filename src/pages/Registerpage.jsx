@@ -33,7 +33,7 @@ const RegisterPage = () => {
     setLoading(true);
     console.log("Datos enviados al backend:", formData);
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, formData);
       console.log("Respuesta del backend:", response.data);
 
       if (formData.mfaEnabled) {
@@ -53,7 +53,10 @@ const RegisterPage = () => {
 
   const verifyMfa = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/verify-mfa", { email: formData.email, code: mfaCode });
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/verify-mfa`, { 
+        email: formData.email, 
+        code: mfaCode 
+      });
       message.success("MFA activado correctamente. Ahora inicie sesión.");
       setIsMfaModalVisible(false);
       navigate("/login");
@@ -62,7 +65,6 @@ const RegisterPage = () => {
       message.error("Código incorrecto. Intente nuevamente.");
     }
   };
-
   return (
     <div className="login-container" style={styles.page}>
       <Card style={styles.card}>

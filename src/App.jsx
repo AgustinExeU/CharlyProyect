@@ -56,9 +56,9 @@ function App() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <MainLayout>
+            
               <Dashboard />
-            </MainLayout>
+            
           </ProtectedRoute>
         }
       />
