@@ -1,7 +1,8 @@
 {
-    "build": {
-      "env": {
-        "VITE_API_URL": "https://proyectoback-depq.onrender.com"
-      }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
     }
-  }
+  ]
+}

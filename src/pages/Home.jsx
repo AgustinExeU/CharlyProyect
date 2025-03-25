@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Layout, Card, Button, Row, Col, Typography, Select } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BACKEND_URL from "../api";
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -21,7 +22,7 @@ function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+      const response = await axios.get(`${BACKEND_URL}/api/products`);
       setProducts(response.data);
       setFilteredProducts(response.data);
     } catch (error) {

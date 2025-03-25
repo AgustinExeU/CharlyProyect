@@ -9,6 +9,7 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 
+
 const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
 

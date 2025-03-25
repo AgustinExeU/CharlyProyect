@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Layout, Typography, Card, Spin, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BACKEND_URL from "../api";
 
 const { Header, Content, Footer } = Layout;
 const { Title, Paragraph } = Typography;
@@ -16,7 +17,7 @@ function ProductoDetalle() {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
+        const response = await axios.get(`${BACKEND_URL}/api/products/${id}`);
         setProducto(response.data);
       } catch (error) {
         console.error("Error al obtener el producto:", error);

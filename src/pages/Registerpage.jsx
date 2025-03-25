@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Input, Card, Typography, Space, message, Checkbox, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BACKEND_URL from "../api";
 
 const { Title, Text } = Typography;
 
@@ -33,7 +34,7 @@ const RegisterPage = () => {
     setLoading(true);
     console.log("Datos enviados al backend:", formData);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, formData);
+      const response = await axios.post(`${BACKEND_URL}/api/auth/register`, formData);
       console.log("Respuesta del backend:", response.data);
 
       if (formData.mfaEnabled) {
@@ -53,7 +54,7 @@ const RegisterPage = () => {
 
   const verifyMfa = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-mfa`, { 
+      await axios.post(`${BACKEND_URL}/api/auth/verify-mfa`, { 
         email: formData.email, 
         code: mfaCode 
       });

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, Select, Upload, message } from "antd";
 import { UploadOutlined, EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import MainLayout from "../layouts/MainLayout";
+import BACKEND_URL from "../api";
 
 const { Option } = Select;
 
@@ -17,7 +18,7 @@ const Dashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products`);
+      const response = await fetch(`${BACKEND_URL}/api/products`);
       if (!response.ok) throw new Error("Error al obtener productos");
       const data = await response.json();
       setProducts(data);
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, { method: "DELETE" });
+      await fetch(`${BACKEND_URL}/api/products/${id}`, { method: "DELETE" });
       message.success("Producto eliminado");
       fetchProducts();
     } catch (error) {
@@ -48,7 +49,7 @@ const Dashboard = () => {
     setModalVisible(true);
   };
 
-  
+
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -60,16 +61,16 @@ const Dashboard = () => {
 
   const handleSubmit = async (values) => {
     try {
-      let url = `${import.meta.env.VITE_API_URL}/api/products`;
+      let url = `${BACKEND_URL}/api/products`;
       let method = "POST";
       let payload = { name: values.name, description: values.description, category: values.category };
 
       if (editingProduct) {
-        url = `${import.meta.env.VITE_API_URL}/api/products/${editingProduct.id}`;
+        url = `${BACKEND_URL}/api/products/${editingProduct.id}`;
         method = "PUT";
       }
 
-      
+
       if (values.image && values.image.file) {
         const base64Image = await getBase64(values.image.file.originFileObj);
         payload.image = base64Image;
@@ -113,40 +114,42 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} style={{ marginBottom: 16 }}>
-        Agregar Producto
-      </Button>
-      <Table dataSource={products} columns={columns} rowKey="id" />
+    <MainLayout>
+      <div>
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd} style={{ marginBottom: 16 }}>
+          Agregar Producto
+        </Button>
+        <Table dataSource={products} columns={columns} rowKey="id" />
 
-      <Modal
-        title={editingProduct ? "Editar Producto" : "Agregar Producto"}
-        open={modalVisible}
-        onCancel={() => setModalVisible(false)}
-        onOk={() => form.submit()}
-      >
-        <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item name="name" label="Nombre" rules={[{ required: true, message: "Ingresa el nombre del producto" }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="description" label="Descripción">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item name="category" label="Categoría" rules={[{ required: true }]}>
-            <Select>
-              <Option value="Emotes">Emotes</Option>
-              <Option value="Avatares">Avatares</Option>
-              <Option value="Pantallas">Pantallas</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name="image" label="Imagen">
-            <Upload beforeUpload={() => false} maxCount={1}>
-              <Button icon={<UploadOutlined />}>Subir Imagen</Button>
-            </Upload>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+        <Modal
+          title={editingProduct ? "Editar Producto" : "Agregar Producto"}
+          open={modalVisible}
+          onCancel={() => setModalVisible(false)}
+          onOk={() => form.submit()}
+        >
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
+            <FormItem name="name" label="Nombre" rules={[{ required: true, message: "Ingresa el nombre del producto" }]}>
+              <Input />
+            </FormItem>
+            <FormItem name="description" label="Descripción">
+              <Input.TextArea />
+            </FormItem>
+            <FormItem name="category" label="Categoría" rules={[{ required: true }]}>
+              <Select>
+                <Option value="Emotes">Emotes</Option>
+                <Option value="Avatares">Avatares</Option>
+                <Option value="Pantallas">Pantallas</Option>
+              </Select>
+            </FormItem>
+            <FormItem name="image" label="Imagen">
+              <Upload beforeUpload={() => false} maxCount={1}>
+                <Button icon={<UploadOutlined />}>Subir Imagen</Button>
+              </Upload>
+            </FormItem>
+          </Form>
+        </Modal>
+      </div>
+    </MainLayout>
   );
 };
 
