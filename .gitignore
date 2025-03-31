@@ -33,3 +33,4 @@ backend
 
 .env 
 .vercel
+/nbproject/private/
