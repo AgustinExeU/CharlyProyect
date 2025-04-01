@@ -2,5 +2,6 @@ firebaseConfig.json
 
 node_modules
 
-.env
+.env 
+.vercel
 /nbproject/private/
